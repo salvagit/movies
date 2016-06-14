@@ -24,7 +24,7 @@ function wrapHandler(handler, announce) {
                     debug(err);
                     console.error(err.stack);
 
-                    announce('recruitment:error', err.message ? err.message : err);
+                    announce('movies:error', err.message ? err.message : err);
                     // send 503 and error as string
                     res.status(503).json({
                         code: 'controller_error',
@@ -83,7 +83,8 @@ function makeControllers(main){
 
 
     return wrapControllers({
-        'movies.get_get': controllers.Movies.get
+        'movies.get_get': controllers.Movies.get,
+        'movies.getById_get': controllers.Movies.getById
 
     }, main.announce);
 }

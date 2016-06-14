@@ -28,7 +28,7 @@ paths:
       tags:
         - movies
       summary: get movie by id
-      x-swagger-router-controller: movies.getById
+      x-swagger-router-controller: movies.get
       parameters:
         - name: id
           in: path

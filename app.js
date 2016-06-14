@@ -253,9 +253,6 @@ app.prototype.routers = function () {
 
             app.use(express.static('public'));
 
-
-
-
             callback();
         };//end initMiddleWare
 

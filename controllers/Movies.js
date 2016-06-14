@@ -10,11 +10,14 @@ function Movies(main) {
     return {
 
         'get': (req, res, next)=> {
+
             debug(".get called");
 
-                main.libs.Movies.get()
-                .then((questions)=>{
-                        res.json(questions);
+            var id = req.swagger.params.id ? req.swagger.params.id.value : null;
+
+                main.libs.Movies.get(id)
+                .then((movies)=>{
+                        res.json(movies);
                     })
                 .catch(next);
 
