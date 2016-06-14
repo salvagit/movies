@@ -9,9 +9,6 @@ consumes:
   - application/json
 produces:
   - application/json
-tags:
-  - name: users
-    description: Users operations
 
 paths:
   /movies:
@@ -26,7 +23,22 @@ paths:
           schema:
             $ref: '#/definitions/movie'
 
-
+  /movies/{id}:
+    get:
+      tags:
+        - movies
+      summary: get movie by id
+      x-swagger-router-controller: movies.getById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: movie
+          schema:
+            $ref: '#/definitions/movie'
 
 definitions:
   movie:

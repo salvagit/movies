@@ -38,7 +38,7 @@ function app(config) {
 
     //this object is the main to return, has all properties need for application (factories, config, controllers, routers, etc).
 
-    self.main = {
+     self.main = {
         config: config,
         db: common.getDB(),
         restEndpoint: config.get('service.protocol') + config.get('service.host') + config.get('service.pathname'),
@@ -73,6 +73,7 @@ app.prototype.swaggerDoc = function () {
     var self = this;
 
     debug("running swaggerDoc");
+
     return new Promise((resolve, reject)=> {
         var swaggerFile = path.join(__dirname, '/api/swagger/swagger.yaml');
         var swaggerString = fs.readFileSync(swaggerFile, 'utf8');
@@ -268,5 +269,3 @@ app.prototype.routers = function () {
 }
 
 module.exports = app;
-
-
