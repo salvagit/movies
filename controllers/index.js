@@ -84,7 +84,7 @@ function makeControllers(main){
 
     return wrapControllers({
         'movies.get_get': controllers.Movies.get,
-        'movies.getById_get': controllers.Movies.getById
+        'movies.search_get': controllers.Movies.search
 
     }, main.announce);
 }
