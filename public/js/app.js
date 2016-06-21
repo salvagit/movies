@@ -48,12 +48,31 @@ myapp.config(function ($routeProvider, $locationProvider) {
             }
             , resolve: myapp.galax("Error 404, invalid page.")
         })
+        .when(myapp.basepath+'movie/:id', {
+            templateUrl: "./pages/movie.html",
+            resolve: myapp.galax("movie")
+        })
 
         .otherwise({
             redirectTo: '404'
         });
 
 });
+
+
+
+myapp.searchMovies = function(params, cb){
+
+    var id = params.id || "";
+    myapp.$http({
+        method: 'GET',
+        url: myapp.endpoint+'/movies/'+id
+    }).then(function successCallback(response) {
+        cb(null, response.data);
+    }, function errorCallback(response) {
+        cb(response, null);
+    });
+}
 
 
 myapp.controller("bodyCtrl", function ($scope, $http, $location) {
@@ -64,19 +83,33 @@ myapp.controller("bodyCtrl", function ($scope, $http, $location) {
 
 });
 
+myapp.controller("movie", function($scope, $http, $location){
+
+
+    var id = $location.$$path.split("/")[2];
+
+    myapp.searchMovies({id: id}, function(err, movie){
+        if(err){
+            alert("Error en el server");
+        } else{
+            $scope.movie = movie[0];
+        }
+    });
+
+});
+
+
 myapp.controller("home", function ($scope, $http) {
     console.log("mostrando la home");
 
     $scope.movie  = [];
 
-    $http({
-        method: 'GET',
-        url: myapp.endpoint+'/movies'
-    }).then(function successCallback(response) {
-        console.log(response);
-        $scope.movies = response.data;
-    }, function errorCallback(response) {
-        console.log("Error: ", response);
+    myapp.searchMovies({}, function(err, movies){
+        if(err){
+            alert("Error en el server");
+        } else{
+            $scope.movies = movies;
+        }
     });
 
 
