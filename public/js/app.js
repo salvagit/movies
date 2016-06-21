@@ -2,9 +2,7 @@ var myapp = angular.module('myapp', ['ngRoute', 'ngAnimate']);
 
 myapp.$http = null;
 
-myapp.endpoint = "http://localhost/service";
-
-
+myapp.endpoint = "http://localhost:5000/service";
 myapp.basepath = "/";
 
 myapp.galax = function (title) {
@@ -30,10 +28,6 @@ myapp.galax = function (title) {
         }
     };
 };
-
-
-myapp.constant('_START_REQUEST_', '_START_REQUEST_');
-myapp.constant('_END_REQUEST_', '_END_REQUEST_');
 
 
 myapp.config(function ($routeProvider, $locationProvider) {
