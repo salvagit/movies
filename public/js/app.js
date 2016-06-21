@@ -64,6 +64,20 @@ myapp.controller("bodyCtrl", function ($scope, $http, $location) {
 
 });
 
-myapp.controller("home", function ($scope, $filter) {
+myapp.controller("home", function ($scope, $http) {
     console.log("mostrando la home");
+
+    $scope.movie  = [];
+
+    $http({
+        method: 'GET',
+        url: myapp.endpoint+'/movies'
+    }).then(function successCallback(response) {
+        console.log(response);
+        $scope.movies = response.data;
+    }, function errorCallback(response) {
+        console.log("Error: ", response);
+    });
+
+
 });
