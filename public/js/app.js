@@ -41,12 +41,15 @@ myapp.config(function ($routeProvider, $locationProvider) {
             controller: 'bodyCtrl',
             resolve: myapp.galax("home")
         })
-
         .when(myapp.basepath + '404', {
             templateUrl: function () {
                 return "./pages/404.html";
             }
             , resolve: myapp.galax("Error 404, invalid page.")
+        })
+        .when(myapp.basepath+"search/:keyword", {
+            templateUrl: './pages/home.html',
+            resolve: myapp.galax('search')
         })
         .when(myapp.basepath+'movie/:id', {
             templateUrl: "./pages/movie.html",
@@ -64,9 +67,13 @@ myapp.config(function ($routeProvider, $locationProvider) {
 myapp.searchMovies = function(params, cb){
 
     var id = params.id || "";
+    var keyword = params.keyword || "";
+    var search = keyword ? "search?title="+keyword : "";
+
+    
     myapp.$http({
         method: 'GET',
-        url: myapp.endpoint+'/movies/'+id
+        url: myapp.endpoint+'/movies/'+id+search
     }).then(function successCallback(response) {
         cb(null, response.data);
     }, function errorCallback(response) {
@@ -81,6 +88,13 @@ myapp.controller("bodyCtrl", function ($scope, $http, $location) {
     myapp.$http = $http;
     myapp.$scope = $scope;
 
+    $scope.search  =function(){
+        console.log("Quieren buscar algo");
+
+        location.hash="#/search/"+$scope.searchInput;
+
+
+    };
 });
 
 myapp.controller("movie", function($scope, $http, $location){
@@ -104,7 +118,14 @@ myapp.controller("home", function ($scope, $http) {
 
     $scope.movie  = [];
 
-    myapp.searchMovies({}, function(err, movies){
+    var keyword = "";
+
+    if(location.hash.indexOf("#/search")==0){
+        keyword = location.hash.split("/")[2]
+    }else keyword = null;
+
+
+    myapp.searchMovies({keyword: keyword}, function(err, movies){
         if(err){
             alert("Error en el server");
         } else{

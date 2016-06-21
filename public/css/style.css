@@ -79,7 +79,7 @@ body{
 	float:right;
 	background:#fff;
 }
-.search-right input[type="text"],.search-right input[type="submit"]{
+.search-right input[type="text"],.search-right input[type="button"]{
 	border:none;
 	outline:none;
 }
@@ -98,7 +98,7 @@ body{
 	background:rgb(30, 93, 173);
 	padding: 12px;
 }
-.search-right input[type="submit"]{
+.search-right input[type="button"]{
 	background: url(../images/search.png) 0px 0.6px;
 	width: 22px;
 	cursor:pointer;
