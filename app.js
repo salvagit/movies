@@ -127,7 +127,30 @@ app.prototype.io = function () {
     return new Promise((resolve, reject)=> {
         var pathName = self.main.config.get('service.pathname');
         debug(pathName + '/socket.io');
-        self.main.io = socket.listen(self.main.server, {path: '/' + pathName.replace(/^\//, '') + '/socket.io'});
+        self.main.io = socket.listen(self.main.server);
+
+        var io = self.main.io;
+
+
+        io.on('connection', function(socket){
+            console.log('a user connected');
+
+            socket.on('chat message', function(msg){
+                console.log('message: ' + msg);
+                io.emit('chat message', msg);
+
+            });
+
+
+            socket.on('disconnect', function(){
+                console.log('user disconnected');
+            });
+        });
+
+
+
+
+
         resolve({io: self.main.io});
     });
 }
@@ -192,6 +215,8 @@ app.prototype.controllers = function () {
         resolve(self.main.controllers);
     });
 }
+
+
 
 
 app.prototype.routers = function () {

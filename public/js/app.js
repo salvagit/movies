@@ -70,7 +70,7 @@ myapp.searchMovies = function(params, cb){
     var keyword = params.keyword || "";
     var search = keyword ? "search?title="+keyword : "";
 
-    
+
     myapp.$http({
         method: 'GET',
         url: myapp.endpoint+'/movies/'+id+search
@@ -89,13 +89,34 @@ myapp.controller("bodyCtrl", function ($scope, $http, $location) {
     myapp.$scope = $scope;
 
     $scope.search  =function(){
-        console.log("Quieren buscar algo");
-
-        location.hash="#/search/"+$scope.searchInput;
-
-
+        if($scope.searchInput.trim()!="")
+            location.hash="#/search/"+$scope.searchInput;
+        else return;
     };
 });
+
+myapp.controller("chat", function($scope){
+
+    $scope.messages = [];
+
+    $scope.send = function(){
+
+        socket.emit('chat message', $scope.message);
+        $scope.message = "";
+    }
+
+    socket.on('chat message', function(msg){
+        console.log("llego: ", msg);
+        var p = document.createElement("li");
+        p.innerHTML = msg;
+        document.getElementById("chatMessages").appendChild(p);
+    });
+
+
+
+
+});
+
 
 myapp.controller("movie", function($scope, $http, $location){
 

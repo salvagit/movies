@@ -22,7 +22,22 @@
     <script  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
     <script  src="./js/ng_route_ext.js"></script>
 
+
+
+
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io();
+    </script>
+
+
     <script src="./js/app.js"></script>
+
+
+
 </head>
 
 <body ng-controller="bodyCtrl" class="body">
@@ -84,6 +99,14 @@
             <div class="clear"> </div>
         </div>
         <div class="right-content">
+            <div ng-controller="chat">
+                <input type="text" ng-model="message">
+                <input type="button" ng-click="send()" />
+
+                <ul style="height: 400px; overflow: auto;" id="chatMessages">
+
+                </ul>
+            </div>
             <div class="popular">
                 <h3>Popular Videos</h3>
                 <p><img src="images/l1.png" title="likes" /> 10,000</p>
