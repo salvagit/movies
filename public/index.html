@@ -22,15 +22,18 @@
     <script  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
     <script  src="./js/ng_route_ext.js"></script>
 
-
-
-
-
-
-
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         var socket = io();
+        var socketId = null;
+        socket.on("connect", function(id){
+            console.log("llego socketid: ", id);
+            socketId=id;
+        });
+
+        socket.on("searched", function(title){
+                console.log("Buscado ", title);
+        });
     </script>
 
 
@@ -47,13 +50,13 @@
     <div class="header">
         <!----start-Logo---->
         <div class="logo">
-            <a href="index.html"><img src="images/logo.png" title="logo" /></a>
+            <a href="/"><img src="images/logo.png" title="logo" /></a>
         </div>
         <!----End-Logo---->
         <!----start-top-nav---->
         <div class="top-nav">
             <ul>
-                <li><a href="index.html">Home</a><p>My Forntpage</p></li>
+                <li><a href="/">Home</a><p>Videos</p></li>
                 <li><a href="#">About</a><p>About this blog</p></li>
                 <li><a href="categories.html">Categories</a><p>Be Ur Self</p></li>
                 <li><a href="#">Economics</a><p>Human Needs</p></li>
@@ -72,7 +75,7 @@
         <div class="left-content">
             <div class="searchbar">
                 <div class="search-left">
-                    <p>Latest Video Form VideosTube</p>
+                    <p>Latest movies</p>
                 </div>
                 <div class="search-right">
                         <input type="text" ng-model="searchInput"><input type="button" value="" ng-click="search()" />
@@ -225,7 +228,7 @@
 </div>
 <div class="clear"> </div>
 <div class="copy-right">
-    <p>&#169 2016 All rights Reserved | Powered by <a href="http://bsdsolutions.com">BSD Solutions</a></p>
+    <p>&#169 2016 All rights Reserved | Powered by <a href="http://bsdsolutions.com.ar">BSD Solutions</a></p>
 </div>
 </div>
 <!----End-wrap---->

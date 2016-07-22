@@ -61,6 +61,31 @@ paths:
           description: movie
           schema:
             $ref: '#/definitions/movie'
+            
+  /movies/add:
+    post:
+      tags:
+        - movies
+      summary: add new movie
+      x-swagger-router-controller: movies.add
+      parameters:
+        - name: movie
+          in: body
+          schema:
+            properties:
+              title:
+                type: string
+              image:
+                type: string  
+              
+
+      responses:
+        '200':
+          description: movie
+          schema:
+            $ref: '#/definitions/movie'
+            
+
 
 
 definitions:

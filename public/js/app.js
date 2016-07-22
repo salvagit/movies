@@ -30,7 +30,9 @@ myapp.galax = function (title) {
 };
 
 
-myapp.config(function ($routeProvider, $locationProvider) {
+myapp.config(function ($routeProvider, $locationProvider, $httpProvider) {
+    
+    $httpProvider.defaults.headers.common["socketid"] = socket.id;
 
     $("#loading").hide();
 
@@ -73,7 +75,7 @@ myapp.searchMovies = function(params, cb){
 
     myapp.$http({
         method: 'GET',
-        url: myapp.endpoint+'/movies/'+id+search
+        url: myapp.endpoint+'/movies/'+search
     }).then(function successCallback(response) {
         cb(null, response.data);
     }, function errorCallback(response) {
@@ -156,3 +158,5 @@ myapp.controller("home", function ($scope, $http) {
 
 
 });
+
+

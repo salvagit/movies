@@ -18,9 +18,20 @@ function Movies(main) {
 
             main.libs.Movies.search({title: title, year: year, id: id})
             .then((movies)=>{
+                   if(title!="") main.io.emit("searched", {title:title});
                     res.json(movies);
                 })
             .catch(next);
+        },
+
+        add: (req, res, next)=>{
+            debug(".add called: ");
+
+            main.libs.Movies.add(req.sagger.params.movie)
+                .then((movie)=>{
+                    res.json(movie);
+                })
+                .catch(next);
         }
 
     };//end return

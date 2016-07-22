@@ -42,6 +42,7 @@ function app(config) {
         config: config,
         db: common.getDB(),
         restEndpoint: config.get('service.protocol') + config.get('service.host') + config.get('service.pathname'),
+        sockets: {}
     };
 
 
@@ -125,31 +126,24 @@ app.prototype.io = function () {
     debug("io...");
 
     return new Promise((resolve, reject)=> {
-        var pathName = self.main.config.get('service.pathname');
+        let pathName = self.main.config.get('service.pathname');
         debug(pathName + '/socket.io');
         self.main.io = socket.listen(self.main.server);
 
-        var io = self.main.io;
+
+        let io = self.main.io;
 
 
-        io.on('connection', function(socket){
-            console.log('a user connected');
+        io.on('connection', (socket)=>{
 
-            socket.on('chat message', function(msg){
-                console.log('message: ' + msg);
-                io.emit('chat message', msg);
+            debug("Socket.io connected: "+socket.id);
+            self.main.sockets[socket.id] = socket;
+            self.main.sockets[socket.created] = new Date();
 
-            });
-
-
-            socket.on('disconnect', function(){
-                console.log('user disconnected');
+            socket.on('disconnect', ()=>{
+                delete self.main.sockets[socket.id];
             });
         });
-
-
-
-
 
         resolve({io: self.main.io});
     });
@@ -196,9 +190,11 @@ app.prototype.libs = function () {
     var self = this;
     return new Promise((resolve, reject)=> {
 
-        self.main.libs = {
-            Movies:  new Movies(self.main)
-        };
+        self.main.libs = {};
+        self.main.libs.http = http
+        self.main.libs.Movies =  new Movies(self.main)
+        
+        
 
         resolve(self.main.libs);
     });
