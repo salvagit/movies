@@ -107,9 +107,16 @@ app.prototype.getApp = function () {
 
         self.main.app.use(session({
             secret: 'mysecretData',
-            store: new MongoStore({db: common.getDB()})
+            resave: false,
+            saveUninitialized: true,
+            store: new MongoStore({url:self.main.config.get("db") })
         }));
 
+        self.main.app.use((req,res,next)=>{
+            if(req.session.counter) req.session.counter++
+            else req.session.counter = 1
+            next();
+        })
 
         self.main.server = http.createServer(self.main.app);
         resolve({app: self.main.app, server: self.main.server});
